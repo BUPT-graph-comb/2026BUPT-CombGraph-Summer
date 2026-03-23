@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>2026北邮·组合与图论暑期课程</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f7ff;   /* 柔和学术蓝白基调 */
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+            color: #1a2c3e;
+        }
+
+        /* 简洁卡片容器 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* 头部简单线条装饰 */
+        .header {
+            background: #003366;   /* 北邮蓝基调 */
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .sub {
+            font-size: 1rem;
+            opacity: 0.85;
+            font-weight: 400;
+            border-top: 1px solid rgba(255,255,255,0.25);
+            display: inline-block;
+            padding-top: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 主体内边距 */
+        .content {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        /* 课程介绍区块 */
+        .intro-section {
+            margin-bottom: 2.5rem;
+            border-left: 4px solid #003366;
+            padding-left: 1.5rem;
+            background: #fafcff;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .intro-section h2 {
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: #003366;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .intro-section h2::before {
+            content: "📖";
+            font-size: 1.5rem;
+        }
+
+        .course-desc {
+            font-size: 1.02rem;
+            color: #2c3e4e;
+            margin-bottom: 1rem;
+        }
+
+        .course-details {
+            background: #eef3fc;
+            padding: 1rem 1.4rem;
+            border-radius: 18px;
+            margin: 1.2rem 0 0.5rem;
+            list-style: none;
+        }
+
+        .course-details li {
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .course-details li strong {
+            min-width: 88px;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .highlight {
+            background: #e9f0f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* 下载区域样式 - 简洁现代 */
+        .download-section {
+            margin-top: 1rem;
+            background: #f9fafc;
+            border-radius: 24px;
+            padding: 1.8rem 1.8rem 2rem;
+            border: 1px solid #e2edf7;
+            transition: box-shadow 0.2s;
+        }
+
+        .download-section h2 {
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: #003366;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-section h2::before {
+            content: "📥";
+            font-size: 1.5rem;
+        }
+
+        .download-sub {
+            color: #3c6e8f;
+            margin-bottom: 1.2rem;
+            font-size: 0.92rem;
+            border-left: 3px solid #8bb3d0;
+            padding-left: 1rem;
+        }
+
+        /* 下载卡片网格 */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .download-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem 1.2rem 1.2rem;
+            transition: all 0.2s ease;
+            border: 1px solid #e4edf5;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .download-card:hover {
+            border-color: #bdd4e8;
+            box-shadow: 0 8px 18px rgba(0, 51, 102, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .file-info-download {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            background: #eef2fa;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+        }
+
+        .file-meta {
+            line-height: 1.4;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #003366;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        .file-size {
+            font-size: 0.7rem;
+            color: #6c8eaa;
+            margin-top: 4px;
+        }
+
+        .download-btn {
+            background: #003366;
+            border: none;
+            color: white;
+            font-weight: 500;
+            font-size: 0.8rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.05s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .download-btn:hover {
+            background: #002244;
+            transform: translateY(-1px);
+        }
+
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+
+        .resource-note {
+            background: #eef3fc;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #cbdde9, transparent);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6b8dab;
+            padding: 1rem 1rem 1.2rem;
+            border-top: 1px solid #eaf0f5;
+            background: #ffffff;
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .content {
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .intro-section h2, .download-section h2 {
+                font-size: 1.4rem;
+            }
+            .download-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .download-btn {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>2026年北京邮电大学“组合与图论”暑期课程</h1>
+        <div class="sub">2026 BUPT Summer Courses on Combinatorics and Graph Theory</div>
+    </div>
+    <div class="content">
+        <!-- 课程介绍区块 (位置突出) -->
+        <div class="intro-section">
+            <h2>课程介绍</h2>
+            <div class="course-desc">
+                由北京邮电大学数学科学学院主办、数学与信息网络教育部重点实验室（北京邮电大学）承办的2026年“组合与图论”暑期课程将于2026年8月11日至8月20日在北京邮电大学（西土城校区）开课。
+                本次课程聚焦于组合与图论方法在拓扑、代数、极值和编码等领域的深刻交叉与前沿发展，面向研究生、博士后及青年教师，旨在为老师和学生们提供学术交流平台。欢迎相关研究方向的老师及学生报名参加！
+            </div>
+            <ul class="course-details">
+                <li><strong>📅 课程时间：</strong>2026年8月11日 – 2026年8月20日</li>
+                <li><strong>📍 授课地点：</strong>北京邮电大学(西土城校区)</li>
+            </ul>
+            <div class="course-desc" style="margin-top: 0.8rem;">
+                📌 课程资料与讲义将在下方提供下载。
+            </div>
+        </div>
+
+        <!-- 文件下载区域 (原上传位置改为下载区域) -->
+        <div class="download-section">
+            <h2>课程资料下载</h2>
+            <div class="download-sub">
+                📄 包含讲义、参考论文、习题集及推荐读物。点击「下载」即可获取课程相关材料。
+            </div>
+
+            <!-- 下载卡片列表 - 模拟课程相关资料 -->
+            <div class="download-grid" id="downloadGrid">
+                <!-- 卡片 1: 课程大纲 -->
+                <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">📘</div>
+                        <div class="file-meta">
+                            <div class="file-name"><a href="application_form.docx"></a>2026组合与图论暑期课程报名表.docx</div>
+                            <!-- <div class="file-size">约 1.2 MB</div> -->
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="2026_Combinatorics_Syllabus.pdf" data-filesize="1.2">📎 下载</button>
+                </div>
+            <!-- 卡片 2: 讲义 第一章 极值组合 -->
+              <!-- <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">📑</div>
+                        <div class="file-meta">
+                            <div class="file-name">Lecture1_极值组合基础.pdf</div>
+                            <div class="file-size">约 2.8 MB</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="Lecture1_Extremal_Combinatorics.pdf" data-filesize="2.8">📎 下载</button>
+                </div> -->
+                <!-- 卡片 3: 讲义 图谱理论 -->
+                <!-- <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">📊</div>
+                        <div class="file-meta">
+                            <div class="file-name">Lecture2_图谱理论与应用.pdf</div>
+                            <div class="file-size">约 3.1 MB</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="Lecture2_Spectral_Graph_Theory.pdf" data-filesize="3.1">📎 下载</button>
+                </div> -->
+                <!-- 卡片 4: 习题集 + 参考答案 -->
+                <!-- <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">✍️</div>
+                        <div class="file-meta">
+                            <div class="file-name">Problem_Set_2026.pdf</div>
+                            <div class="file-size">约 1.5 MB</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="Problem_Set_Combinatorics_2026.pdf" data-filesize="1.5">📎 下载</button>
+                </div> -->
+                <!-- 卡片 5: 推荐阅读清单 -->
+                <!-- <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">📚</div>
+                        <div class="file-meta">
+                            <div class="file-name">Reading_List_GraphTheory.pdf</div>
+                            <div class="file-size">约 0.9 MB</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="Reading_List_GraphTheory.pdf" data-filesize="0.9">📎 下载</button>
+                </div> -->
+                <!-- 卡片 6: 课程项目说明 -->
+                <!-- <div class="download-card">
+                    <div class="file-info-download">
+                        <div class="file-icon">📋</div>
+                        <div class="file-meta">
+                            <div class="file-name">Project_Guidelines.pdf</div>
+                            <div class="file-size">约 0.7 MB</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" data-filename="Project_Guidelines_2026.pdf" data-filesize="0.7">📎 下载</button>
+                </div> -->
+            </div> 
+
+            <!-- 附加说明：模拟文件下载提醒 + 批量提示 -->
+            <div class="resource-note">
+                <span>💡</span>
+                <span>所有资料均为课程教学资源，仅供个人学习使用。</span>
+            </div>
+            <div id="downloadMessage" style="margin-top: 1rem; font-size: 0.85rem; color: #2c7a4d;"></div>
+        </div>
+    </div>
+    <footer>
+        <br>主办单位：北京邮电大学数学科学学院
+        <br>承办单位：数学与信息网络教育部重点实验室（北京邮电大学）
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // 为每个下载按钮模拟真实文件下载 (生成blob模拟数据, 并提供真实文件名)
+        // 为了模拟不同格式的pdf文件内容，实际中可替换为后端真实链接。这里采用前端动态生成简单示例内容并触发下载。
+        // 同时保留课程资料的“真实感”，每个下载生成一个带有课程信息的模拟PDF内容（文本），保存为.pdf文件。
+        
+        // 辅助函数：生成模拟的PDF内容 (实际以文本模拟，让用户下载后能看到课程信息)
+        function generateMockPDFContent(fileDisplayName, sizeMB) {
+            // 根据不同文件名创建不同的课程说明文字 (模拟内容)
+            let title = '';
+            let description = '';
+            let additionalInfo = '';
+            if (fileDisplayName.includes('Syllabus') || fileDisplayName.includes('课程大纲')) {
+                title = '2026 北京邮电大学 组合与图论暑期课程 教学大纲';
+                description = '课程目标：掌握组合数学核心技巧，理解图论前沿。\n授课计划：共36学时，包含极值组合、图谱理论、随机方法等模块。\n考核方式：课程项目+课后作业。\n\n更多详细进度及参考书目请见本文件。';
+            } else if (fileDisplayName.includes('Extremal') || fileDisplayName.includes('极值组合')) {
+                title = 'Lecture 1: 极值组合基础';
+                description = '内容涵盖：Turán定理、Erdős–Stone定理、Szemerédi正则引理简介。包含典型极值问题与证明技巧。\n\n本讲作业：证明完全图K_{r+1}的Turán图极值结构。';
+            } else if (fileDisplayName.includes('Spectral') || fileDisplayName.includes('图谱理论')) {
+                title = 'Lecture 2: 图谱理论及应用';
+                description = '邻接矩阵与拉普拉斯矩阵的特征值性质，图谱在连通性、扩张图、图划分中的应用。示例：Cheeger不等式与谱聚类。';
+            } else if (fileDisplayName.includes('Problem_Set')) {
+                title = '组合与图论 习题集 2026';
+                description = '包含10道精选习题，涵盖极值组合、拉姆齐数、网络流、图谱特征值估计。提供部分提示与参考解答框架。';
+            } else if (fileDisplayName.includes('Reading_List')) {
+                title = '推荐阅读清单 - 组合与图论';
+                description = '1. 《组合数学》(Lovász)，2. 《图论及其应用》(Bondy & Murty)，3. 近期顶会论文选集（arXiv链接）。';
+            } else if (fileDisplayName.includes('Project_Guidelines')) {
+                title = '课程项目说明及提交规范';
+                description = '项目主题从推荐列表中选择或自拟，需包含文献综述+原创性分析或算法实现。提交截止日期：2026年8月1日。';
+            } else {
+                title = `课程资料: ${fileDisplayName}`;
+                description = '本资料为北京邮电大学组合与图论暑期课程配套资源。';
+            }
+            
+            // 构造模拟PDF内容（实际上为文本，但下载后缀为.pdf，浏览器会识别为PDF但内容可读，也能作为模拟）
+            // 为了更像PDF，添加简单header信息。不过用户双击会以文本方式打开，但作为演示足够。
+            const mockContent = `%PDF-1.4 模拟课程资料 (演示用途)
+            标题: ${title}
+            生成时间: 2026-03-23
+            课程: 组合与图论暑期课程 (北京邮电大学)
+            ---------------------------------------------------
+            ${description}
+            
+            【重要说明】本文件为模拟下载资料，实际课程中将提供完整讲义PDF。
+            如需正式版本，请关注课程通知或联系组委会。
+            
+            文件大小参考: ${sizeMB} MB (此版本仅演示下载功能)
+            
+            —— 组合与图论课程组 2026
+            `;
+            return mockContent;
+        }
+        
+        // 执行文件下载 (生成blob，并模拟.pdf文件)
+        function downloadFile(filenameBase, sizeMB) {
+            // 根据原始按钮传入的文件名构造展示文件名 (保证.pdf结尾)
+            let displayFileName = filenameBase;
+            if (!displayFileName.toLowerCase().endsWith('.pdf')) {
+                displayFileName += '.pdf';
+            }
+            // 获取友好内容
+            const fileContent = generateMockPDFContent(displayFileName, sizeMB);
+            // 创建blob，MIME类型 application/pdf 但实际内容是文本，但下载后可以提示用户，为了让体验更像下载资料，设置为application/octet-stream也可。
+            // 为了更好的pdf体验，使用application/pdf；用户打开可能会显示纯文本，但作为前端模拟，无伤大雅。
+            const blob = new Blob([fileContent], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = displayFileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // 显示短暂提示消息
+            const msgDiv = document.getElementById('downloadMessage');
+            if (msgDiv) {
+                msgDiv.innerHTML = `✅ 正在下载：${displayFileName} (模拟资料，约${sizeMB} MB)`;
+                msgDiv.style.color = '#1e6f3f';
+                msgDiv.style.opacity = '1';
+                setTimeout(() => {
+                    if (msgDiv) {
+                        msgDiv.style.opacity = '0';
+                        setTimeout(() => {
+                            if (msgDiv) msgDiv.innerHTML = '';
+                            if (msgDiv) msgDiv.style.opacity = '1';
+                        }, 600);
+                    }
+                }, 2500);
+            }
+        }
+        
+        // 为所有下载按钮绑定事件，根据不同data属性传递不同的文件名和大小信息
+        function bindDownloadEvents() {
+            const buttons = document.querySelectorAll('.download-btn');
+            buttons.forEach(btn => {
+                // 移除旧监听避免重复绑定
+                btn.removeEventListener('click', handleDownloadClick);
+                btn.addEventListener('click', handleDownloadClick);
+            });
+        }
+        
+        function handleDownloadClick(event) {
+            const btn = event.currentTarget;
+            // 获取自定义属性 文件名标识
+            let rawFilename = btn.getAttribute('data-filename');
+            let fileSize = btn.getAttribute('data-filesize') || '1.0';
+            if (!rawFilename) {
+                // 降级: 根据相邻文件信息提取
+                const card = btn.closest('.download-card');
+                if (card) {
+                    const fileNameSpan = card.querySelector('.file-name');
+                    if (fileNameSpan) {
+                        let nameText = fileNameSpan.innerText.trim();
+                        // 去掉可能带.pdf后缀的再处理
+                        if (nameText.toLowerCase().endsWith('.pdf')) {
+                            rawFilename = nameText;
+                        } else {
+                            rawFilename = nameText.replace(/\s/g, '_') + '.pdf';
+                        }
+                    } else {
+                        rawFilename = `course_material_${Date.now()}.pdf`;
+                    }
+                } else {
+                    rawFilename = `lecture_${Date.now()}.pdf`;
+                }
+            }
+            // 清理文件名中可能包含的斜杠等
+            let safeFilename = rawFilename.replace(/[\\/:*?"<>|]/g, '_');
+            if (!safeFilename.toLowerCase().endsWith('.pdf')) {
+                safeFilename += '.pdf';
+            }
+            downloadFile(safeFilename, fileSize);
+        }
+        
+        // 初始化
+        bindDownloadEvents();
+        
+        // 可选额外样式: 为每个下载按钮增加动画感 (无需额外操作)
+        // 所有卡片模拟真实的资料下载，完全符合“文件下载部分”需求
+        console.log('下载区域已就绪，所有课程资料支持模拟下载 (生成示例pdf内容)');
+    })();
+</script>
+</body>
+</html>
